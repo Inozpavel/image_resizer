@@ -4,7 +4,7 @@
 
 Командная утилита для изменения размера изображений
 
-### Использование
+### Справка команд
 
 Доступные команды получаются через
 
@@ -30,7 +30,15 @@ image_resizer {command} -h
 image_resizer {command} --help
 ```
 
-### Доступные переменные среды:
+### Использование
+
+Пример использования для изменения картинки 512x512 на 128x128
+
+```bash
+image_resizer resize-single-image  -i ./input.png  -r ./output.png -w 128 -H 128
+```
+
+### Доступные переменные среды
 
 `RUST_LOG` - уровень логов, по умолчанию `info`. Доступные
 значения  https://docs.rs/env_logger/latest/env_logger/#enabling-logging
@@ -38,21 +46,8 @@ image_resizer {command} --help
 ### Сборка из исходного кода
 
 1) [Установка Rust](https://www.rust-lang.org/tools/install) (после комлиляции rust больше не нужен)
-2) Установка библиотеки для работы с SSL
 
-Linux
-
-```bash
-sudo apt install openssl
-```
-
-Mac
-
-```bash
-sudo brew install openssl
-```
-
-3) Клонирование и сборка из исходников
+2) Клонирование и сборка из исходников
 
 ```bash
 git clone repo
