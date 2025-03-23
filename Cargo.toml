@@ -1,0 +1,12 @@
+[package]
+name = "image_resizer"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.5.32", features = ["derive"] }
+tokio = { version = "1.44.1", features = ["macros", "rt-multi-thread", "fs", "rt"] }
+image = "0.25.5"
+anyhow = "1.0.97"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+tracing = "0.1.41"
