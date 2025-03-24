@@ -6,24 +6,6 @@ pub struct Cli {
     pub command: Command,
 }
 
-#[derive(Debug, ValueEnum, Copy, Clone)]
-pub enum InputFilterType {
-    /// Nearest Neighbor
-    Nearest,
-
-    /// Linear Filter
-    Triangle,
-
-    /// Cubic Filter
-    CatmullRom,
-
-    /// Gaussian Filter
-    Gaussian,
-
-    /// Lanczos with window 3
-    Lanczos3,
-}
-
 #[derive(Debug, Subcommand)]
 pub enum Command {
     ResizeSingleImage(ResizeSingleImage),
@@ -43,11 +25,29 @@ pub struct ResizeSingleImage {
     #[arg(long, short = 'H')]
     pub height: u32,
 
-    #[arg(long, short = 'r')]
     /// Output image file path. Default to input file path
+    #[arg(long, short = 'r')]
     pub output_file_path: Option<String>,
 
-    /// Filter type
+    /// Filter type (https://docs.rs/image/latest/image/imageops/enum.FilterType.html)
     #[arg(long, short = 'f', default_value = "gaussian")]
     pub filter_type: InputFilterType,
+}
+
+#[derive(Debug, ValueEnum, Copy, Clone)]
+pub enum InputFilterType {
+    /// Nearest Neighbor
+    Nearest,
+
+    /// Linear Filter
+    Triangle,
+
+    /// Cubic Filter
+    CatmullRom,
+
+    /// Gaussian Filter
+    Gaussian,
+
+    /// Lanczos with window 3
+    Lanczos3,
 }

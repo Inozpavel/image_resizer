@@ -3,6 +3,7 @@ mod cli;
 use crate::cli::{Cli, Command, InputFilterType, ResizeSingleImage};
 use anyhow::Context;
 use clap::Parser;
+use colored::Colorize;
 use image::imageops::FilterType;
 use image::{EncodableLayout, ImageFormat, ImageReader};
 use std::io::Cursor;
@@ -26,6 +27,14 @@ async fn main() -> Result<(), anyhow::Error> {
     let cli = Cli::parse();
     debug!("Parsed: {:?}", cli);
 
+    if let Err(e) = process_cli(cli).await {
+        eprintln!("{}", format!("{e:?}").bright_red());
+        std::process::exit(1);
+    }
+    Ok(())
+}
+
+async fn process_cli(cli: Cli) -> Result<(), anyhow::Error> {
     match cli.command {
         Command::ResizeSingleImage(input) => resize_single_image(input)
             .await
@@ -34,11 +43,10 @@ async fn main() -> Result<(), anyhow::Error> {
 
     Ok(())
 }
-
 async fn resize_single_image(input: ResizeSingleImage) -> Result<(), anyhow::Error> {
     let image_content = tokio::fs::read(&input.input_file_path)
         .await
-        .context("Failed to read image file")?;
+        .with_context(|| format!("Failed to read image file '{}'", input.input_file_path))?;
 
     let image = ImageReader::new(Cursor::new(image_content));
     let dynamic_image = image
